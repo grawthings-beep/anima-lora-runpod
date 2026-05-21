@@ -1,0 +1,9 @@
+.git
+.github
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+datasets/
+outputs/
+__pycache__/
