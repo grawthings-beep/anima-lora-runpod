@@ -61,20 +61,21 @@ if [[ "${AUTO_TRAIN:-0}" == "1" ]]; then
 fi
 
 cat <<EOF
-Anima LoRA trainer is ready.
+Anima LoRA trainer (sd-scripts) is ready.
 
-Dataset:
+Dataset (images + matching .txt captions):
   ${WORKSPACE_DIR}/datasets/train
 
 Model root:
   ${MODEL_ROOT}/models
 
 Commands:
+  # (optional) generate dataset.toml manually; train_lora.sh does this automatically
   /opt/runpod-anima-lora/scripts/make_metadata.py --dataset-dir ${WORKSPACE_DIR}/datasets/train
   /opt/runpod-anima-lora/scripts/train_lora.sh
 
 Output:
-  ${WORKSPACE_DIR}/outputs
+  ${WORKSPACE_DIR}/outputs/${OUTPUT_NAME:-anima_lora}.safetensors
 EOF
 
 sleep infinity

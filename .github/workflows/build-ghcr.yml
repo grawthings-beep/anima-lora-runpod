@@ -3,6 +3,8 @@ name: Build GHCR image
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
   workflow_dispatch:
 
 permissions:
@@ -27,3 +29,5 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:cuda12.8
             ghcr.io/${{ github.repository }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

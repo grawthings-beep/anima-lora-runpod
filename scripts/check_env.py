@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import importlib.util
+import os
 import pathlib
 import sys
 
@@ -24,8 +25,13 @@ def main():
     except Exception as exc:
         print(f"torch_check_error: {exc}")
 
-    for module in ["diffsynth", "accelerate", "peft", "safetensors", "huggingface_hub"]:
+    for module in ["accelerate", "transformers", "safetensors", "huggingface_hub", "bitsandbytes"]:
         print(f"{module}: {'ok' if importlib.util.find_spec(module) else 'missing'}")
+
+    sd_scripts = pathlib.Path(os.environ.get("SD_SCRIPTS_HOME", "/opt/sd-scripts"))
+    train_script = sd_scripts / "anima_train_network.py"
+    print(f"sd_scripts: {sd_scripts} exists={sd_scripts.exists()}")
+    print(f"anima_train_network.py: exists={train_script.exists()}")
 
     workspace = pathlib.Path(args.workspace)
     for path in [
