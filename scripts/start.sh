@@ -56,6 +56,21 @@ if [[ "${RUN_DEP_CHECK:-1}" == "1" ]]; then
   "${PYTHON_BIN}" /opt/runpod-anima-lora/scripts/check_env.py --workspace "${WORKSPACE_DIR}"
 fi
 
+# --- optional JupyterLab: browse files + view sample images in the browser ---
+if [[ "${ENABLE_JUPYTER:-1}" == "1" ]]; then
+  if ! command -v jupyter >/dev/null 2>&1; then
+    echo "[*] Installing JupyterLab (first boot only)..."
+    "${PYTHON_BIN}" -m pip install -q jupyterlab >/dev/null 2>&1 || echo "WARN: jupyterlab install failed"
+  fi
+  if command -v jupyter >/dev/null 2>&1; then
+    JUPYTER_PORT="${JUPYTER_PORT:-8888}"
+    echo "[*] JupyterLab on :${JUPYTER_PORT} (root=${WORKSPACE_DIR}, token='${JUPYTER_TOKEN:-}')"
+    nohup jupyter lab --ip=0.0.0.0 --port="${JUPYTER_PORT}" --no-browser --allow-root \
+      --ServerApp.token="${JUPYTER_TOKEN:-}" --ServerApp.root_dir="${WORKSPACE_DIR}" \
+      >"${WORKSPACE_DIR}/jupyter.log" 2>&1 &
+  fi
+fi
+
 if [[ "${AUTO_TRAIN:-0}" == "1" ]]; then
   exec /opt/runpod-anima-lora/scripts/train_lora.sh
 fi
@@ -76,6 +91,10 @@ Commands:
 
 Output:
   ${WORKSPACE_DIR}/outputs/${OUTPUT_NAME:-anima_lora}.safetensors
+
+JupyterLab (browse files / view sample images):
+  http://<pod>:${JUPYTER_PORT:-8888}/   (expose port ${JUPYTER_PORT:-8888} in the RunPod template)
+  token: '${JUPYTER_TOKEN:-}' (empty = no token; set JUPYTER_TOKEN to require one)
 EOF
 
 sleep infinity

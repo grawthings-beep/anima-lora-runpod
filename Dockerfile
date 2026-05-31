@@ -36,7 +36,7 @@ RUN python -m pip install --upgrade pip setuptools wheel \
     # drop any pins in requirements.txt that would downgrade/override them.
     && sed -i -E '/^(torch|torchvision|xformers)([=<>!~ ]|$)/d' requirements.txt \
     && python -m pip install -r requirements.txt \
-    && python -m pip install "huggingface_hub[hf_transfer]" hf_transfer
+    && python -m pip install "huggingface_hub[hf_transfer]" hf_transfer jupyterlab
 
 COPY config/ /opt/runpod-anima-lora/config/
 COPY scripts/ /opt/runpod-anima-lora/scripts/
