@@ -16,7 +16,7 @@ OUTPUT_DIR="${OUTPUT_DIR:-${WORKSPACE_DIR}/outputs}"
 OUTPUT_NAME="${OUTPUT_NAME:-anima_lora}"
 
 # Model files (same three Anima components)
-DIT_PATH="${DIT_PATH:-${MODEL_ROOT}/models/diffusion_models/wai_anima_2859702.safetensors}"
+DIT_PATH="${DIT_PATH:-${MODEL_ROOT}/models/diffusion_models/anima-base-v1.0.safetensors}"
 QWEN3_PATH="${QWEN3_PATH:-${MODEL_ROOT}/models/text_encoders/qwen_3_06b_base.safetensors}"
 VAE_PATH="${VAE_PATH:-${MODEL_ROOT}/models/vae/qwen_image_vae.safetensors}"
 
